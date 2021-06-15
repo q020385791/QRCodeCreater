@@ -33,7 +33,7 @@ namespace QRCodeCreater
 
             //娶得主目錄下的logo.png檔案
             Bitmap logo = new Bitmap(Directory.GetCurrentDirectory()+@"\logo.png");
-            var writer = new BarcodeWriter  //dll裡面可以看到屬性
+            var writer = new BarcodeWriter  
             {
                 Format = BarcodeFormat.QR_CODE,
                 Options = new QrCodeEncodingOptions //設定QRCode大小
@@ -59,7 +59,7 @@ namespace QRCodeCreater
             BitMatrix bm = Muwriter.encode(QRCodeSource, BarcodeFormat.QR_CODE, 300, 300, hint);
             BarcodeWriter barcodeWriter = new BarcodeWriter();
             Bitmap map = barcodeWriter.Write(bm);
-            //得到二維碼實際尺寸
+            //得到QrCode實際尺寸
             int[] rectangle = bm.getEnclosingRectangle();
             //計算插入圖片之位置與大小
             int middleW = Math.Min((int)(rectangle[2] / 3.5), logo.Width);
@@ -75,7 +75,7 @@ namespace QRCodeCreater
                 g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
                 g.DrawImage(map, 0, 0);
             }
-            //将二维码插入图片
+            //QRCode插入圖片
             Graphics myGraphic = Graphics.FromImage(bmpimg);
             //白底
             myGraphic.FillRectangle(Brushes.White, middleL, middleT, middleW, middleH);
