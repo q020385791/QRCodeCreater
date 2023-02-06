@@ -31,7 +31,7 @@ namespace QRCodeCreater
         private void btnCreateQRCode_Click(object sender, EventArgs e)
         {
 
-            //娶得主目錄下的logo.png檔案
+            //取得主目錄下的logo.png檔案
             Bitmap logo = new Bitmap(Directory.GetCurrentDirectory()+@"\logo.png");
             var writer = new BarcodeWriter  
             {
