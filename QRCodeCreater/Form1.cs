@@ -32,69 +32,66 @@ namespace QRCodeCreater
         {
 
             //取得主目錄下的logo.png檔案
-            Bitmap logo = new Bitmap(Directory.GetCurrentDirectory()+@"\logo.png");
-            var writer = new BarcodeWriter  
-            {
-                Format = BarcodeFormat.QR_CODE,
-                Options = new QrCodeEncodingOptions //設定QRCode大小
-                {
-                    Height = 300,
-                    Width = 300,
-                }
-            };
+            string logoPath = Path.Combine(Directory.GetCurrentDirectory(), "logo.png");
 
+            if (!File.Exists(logoPath))
+            {
+                MessageBox.Show("找不到 logo.png 檔案");
+                return;
+            }
+
+            Bitmap logo = new Bitmap(logoPath);
             string QRCodeSource = txtInput.Text;
             if (string.IsNullOrEmpty(QRCodeSource))
             {
                 MessageBox.Show("尚未填入轉換資料來源");
                 return;
             }
-            //產生QRcode
 
-            #region 帶logo
-            MultiFormatWriter Muwriter = new MultiFormatWriter();
-            Dictionary<EncodeHintType, object> hint = new Dictionary<EncodeHintType, object>();
-            hint.Add(EncodeHintType.CHARACTER_SET, "UTF-8");
-            hint.Add(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
-            BitMatrix bm = Muwriter.encode(QRCodeSource, BarcodeFormat.QR_CODE, 300, 300, hint);
-            BarcodeWriter barcodeWriter = new BarcodeWriter();
-            Bitmap map = barcodeWriter.Write(bm);
-            //得到QrCode實際尺寸
-            int[] rectangle = bm.getEnclosingRectangle();
-            //計算插入圖片之位置與大小
-            int middleW = Math.Min((int)(rectangle[2] / 3.5), logo.Width);
-            int middleH = Math.Min((int)(rectangle[3] / 3.5), logo.Height);
-            int middleL = (map.Width - middleW) / 2;
-            int middleT = (map.Height - middleH) / 2;
 
-            Bitmap bmpimg = new Bitmap(map.Width, map.Height, PixelFormat.Format32bppArgb);
-            using (Graphics g = Graphics.FromImage(bmpimg))
+            try
             {
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-                g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-                g.DrawImage(map, 0, 0);
+                // 設置 QR Code 參數
+                var hint = new Dictionary<EncodeHintType, object>
+                {
+                    { EncodeHintType.CHARACTER_SET, "UTF-8" },
+                    { EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H }
+                };
+                // 生成 QR Code
+                MultiFormatWriter writer = new MultiFormatWriter();
+                BitMatrix matrix = writer.encode(QRCodeSource, BarcodeFormat.QR_CODE, 300, 300, hint);
+                BarcodeWriter barcodeWriter = new BarcodeWriter { Format = BarcodeFormat.QR_CODE };
+                Bitmap qrCodeBitmap = barcodeWriter.Write(matrix);
+
+                // 計算插入圖片位置和大小
+                int[] rectangle = matrix.getEnclosingRectangle();
+                int middleW = Math.Min(qrCodeBitmap.Width / 20, logo.Width); // 减小 logo 的比例
+                int middleH = Math.Min(qrCodeBitmap.Height / 20, logo.Height);
+                int middleL = (qrCodeBitmap.Width - middleW) / 2;
+                int middleT = (qrCodeBitmap.Height - middleH) / 2;
+
+                // 創建最終帶 logo 的 QR Code 圖片
+                Bitmap finalImage = new Bitmap(qrCodeBitmap.Width, qrCodeBitmap.Height, PixelFormat.Format32bppArgb);
+                using (Graphics g = Graphics.FromImage(finalImage))
+                {
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                    g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                    g.DrawImage(qrCodeBitmap, 0, 0);
+                }
+
+                using (Graphics myGraphic = Graphics.FromImage(finalImage))
+                {
+                    // 插入 logo 並設置白底
+                    myGraphic.FillRectangle(Brushes.White, middleL, middleT, middleW, middleH);
+                    myGraphic.DrawImage(logo, middleL, middleT, middleW, middleH);
+                }
+                pictureBox1.Image = finalImage;
             }
-            //QRCode插入圖片
-            Graphics myGraphic = Graphics.FromImage(bmpimg);
-            //白底
-            myGraphic.FillRectangle(Brushes.White, middleL, middleT, middleW, middleH);
-            myGraphic.DrawImage(logo, middleL, middleT, middleW, middleH);
-
-
-
-
-            #endregion
-
-
-            #region 不帶logo
-
-            //var img = writer.Write(QRCodeSource);
-            //string FileName = "ithome";
-            //Bitmap bmpimg = new Bitmap(img);
-
-            #endregion
-            pictureBox1.Image = bmpimg;
+            catch (Exception ex)
+            {
+                MessageBox.Show($"發生錯誤：{ex.Message}");
+            }
         }
     }
 }

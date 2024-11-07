@@ -29,52 +29,55 @@ namespace QRCodeCreater
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnCreateQRCode = new System.Windows.Forms.Button();
-            this.txtInput = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.SuspendLayout();
+            btnCreateQRCode = new System.Windows.Forms.Button();
+            txtInput = new System.Windows.Forms.TextBox();
+            pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            SuspendLayout();
             // 
             // btnCreateQRCode
             // 
-            this.btnCreateQRCode.Location = new System.Drawing.Point(12, 12);
-            this.btnCreateQRCode.Name = "btnCreateQRCode";
-            this.btnCreateQRCode.Size = new System.Drawing.Size(99, 34);
-            this.btnCreateQRCode.TabIndex = 0;
-            this.btnCreateQRCode.Text = "Create";
-            this.btnCreateQRCode.UseVisualStyleBackColor = true;
-            this.btnCreateQRCode.Click += new System.EventHandler(this.btnCreateQRCode_Click);
+            btnCreateQRCode.Location = new System.Drawing.Point(8, 8);
+            btnCreateQRCode.Margin = new System.Windows.Forms.Padding(2);
+            btnCreateQRCode.Name = "btnCreateQRCode";
+            btnCreateQRCode.Size = new System.Drawing.Size(63, 22);
+            btnCreateQRCode.TabIndex = 0;
+            btnCreateQRCode.Text = "Create";
+            btnCreateQRCode.UseVisualStyleBackColor = true;
+            btnCreateQRCode.Click += btnCreateQRCode_Click;
             // 
             // txtInput
             // 
-            this.txtInput.Location = new System.Drawing.Point(117, 16);
-            this.txtInput.Name = "txtInput";
-            this.txtInput.Size = new System.Drawing.Size(181, 30);
-            this.txtInput.TabIndex = 1;
+            txtInput.Location = new System.Drawing.Point(74, 10);
+            txtInput.Margin = new System.Windows.Forms.Padding(2);
+            txtInput.Name = "txtInput";
+            txtInput.Size = new System.Drawing.Size(117, 23);
+            txtInput.TabIndex = 1;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(39, 119);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(300, 300);
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
+            pictureBox1.Location = new System.Drawing.Point(25, 78);
+            pictureBox1.Margin = new System.Windows.Forms.Padding(2);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new System.Drawing.Size(300, 300);
+            pictureBox1.TabIndex = 2;
+            pictureBox1.TabStop = false;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 23F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(427, 450);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.txtInput);
-            this.Controls.Add(this.btnCreateQRCode);
-            this.Name = "Form1";
-            this.Text = "QRCodeCreater";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(381, 398);
+            Controls.Add(pictureBox1);
+            Controls.Add(txtInput);
+            Controls.Add(btnCreateQRCode);
+            Margin = new System.Windows.Forms.Padding(2);
+            Name = "Form1";
+            Text = "QRCodeCreater";
+            Load += Form1_Load;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
